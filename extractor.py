@@ -67,10 +67,12 @@ class ViTExtractor:
         else:  # model from timm -- load weights from timm to dino model (enables working on arbitrary size images).
             temp_model = timm.create_model(model_type, pretrained=True)
             model_type_dict = {
-                'vit_small_patch16_224': 'dino_vits16',
-                'vit_small_patch8_224': 'dino_vits8',
-                'vit_base_patch16_224': 'dino_vitb16',
-                'vit_base_patch8_224': 'dino_vitb8'
+                'vit_small_patch16_224': 'dino_vits16', # not available anymore in timm
+                'vit_small_patch8_224': 'dino_vits8',   # not available anymore in timm
+                'vit_base_patch16_224': 'dino_vitb16',  # not available anymore in timm
+                
+                'vit_base_patch8_224': 'dino_vitb8',  # not available anymore in timm
+                'vit_base_patch8_224.augreg_in21k': 'dino_vitb8', #new
             }
             model = torch.hub.load('facebookresearch/dino:main', model_type_dict[model_type])
             temp_state_dict = temp_model.state_dict()
