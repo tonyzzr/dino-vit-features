@@ -84,7 +84,10 @@ def find_part_cosegmentation(image_paths: List[str], elbow: float = 0.975, load_
     for image_path in image_paths:
         image_batch, image_pil = extractor.preprocess(image_path, load_size)
         image_pil_list.append(image_pil)
-        descs = extractor.extract_descriptors(image_batch.to(device), layer, facet, bin).cpu().numpy()
+        # descs = extractor.extract_descriptors(image_batch.to(device), layer, facet, bin).cpu().numpy() # original
+        descs = extractor.extract_descriptors(image_batch.to(device), layer, facet, bin).cpu().detach().numpy() # add .detach() to prevent error
+
+      
         curr_num_patches, curr_load_size = extractor.num_patches, extractor.load_size
         num_patches_list.append(curr_num_patches)
         load_size_list.append(curr_load_size)
