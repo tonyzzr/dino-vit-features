@@ -99,7 +99,8 @@ def find_part_cosegmentation(image_paths: List[str], elbow: float = 0.975, load_
                 low_res_load_size = curr_load_size
             image_batch, _ = saliency_extractor.preprocess(image_path, low_res_load_size)
 
-        saliency_map = saliency_extractor.extract_saliency_maps(image_batch.to(device)).cpu().numpy()
+        # saliency_map = saliency_extractor.extract_saliency_maps(image_batch.to(device)).cpu().numpy() # original
+        saliency_map = saliency_extractor.extract_saliency_maps(image_batch.to(device)).cpu().detach().numpy() # add detach
         curr_sal_num_patches, curr_sal_load_size = saliency_extractor.num_patches, saliency_extractor.load_size
         if low_res_saliency_maps:
             reshape_op = transforms.Resize(curr_num_patches, transforms.InterpolationMode.NEAREST)
